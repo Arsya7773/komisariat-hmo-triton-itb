@@ -196,7 +196,7 @@ export const Organogram = () => {
             className="w-full overflow-x-auto overflow-y-hidden no-scrollbar"
           >
             <div
-              className="relative min-w-[1500px] h-[900px] px-8"
+              className="relative min-w-[1800px] h-[900px] px-8"
             >
               {/* SVG Connecting Lines Layer */}
               <ConnectingLines
@@ -217,7 +217,7 @@ export const Organogram = () => {
 
               {/* Legend Box */}
               <motion.div
-                className="absolute bottom-8 right-8 z-30 bg-[#0A192F]/80 backdrop-blur-xl border border-white/20 p-6 rounded-2xl text-white shadow-2xl"
+                className="absolute bottom-8 right-8 z-[40] bg-[#0A192F]/80 backdrop-blur-xl border border-white/20 p-6 rounded-2xl text-white shadow-2xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}

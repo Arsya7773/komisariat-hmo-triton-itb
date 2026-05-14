@@ -17,21 +17,21 @@ const nodes: OrgNode[] = [
     fullName: 'Adrevi Chepa Muhammad',
     title: 'Ketua Komisariat',
     photo: '/assets/pengurus/adrevi-chepa.jpg',
-    position: { x: 600, y: 80 },
+    position: { x: 900, y: 80 },
     level: 0,
   },
   {
     id: 'bpak',
     name: 'BPAK HMO\nTRITON ITB',
     title: 'BPAK HMO TRITON ITB',
-    position: { x: 840, y: 80 },
+    position: { x: 1440, y: 80 },
     level: 0,
   },
   {
     id: 'poseidon',
     name: 'POSEIDON',
     title: 'POSEIDON',
-    position: { x: 840, y: 270 },
+    position: { x: 1440, y: 270 },
     level: 0,
   },
 
@@ -51,42 +51,42 @@ const nodes: OrgNode[] = [
     level: 1,
   },
 
-  // ===== LEVEL 2: EXECUTIVE TEAM =====
+  // ===== LEVEL 2: EXECUTIVE TEAM (Kesekjenan on LEFT with its divisions) =====
   {
     id: 'kesekjenan',
     name: 'Kesekjenan',
     title: 'Bidang Kesekjenan',
-    position: { x: 600, y: 315 },
+    position: { x: 300, y: 315 },
     level: 2,
   },
   {
     id: 'sekretaris',
     name: 'Sekretaris',
     title: 'Sekretaris',
-    position: { x: 420, y: 450 },
+    position: { x: 180, y: 450 },
     level: 2,
   },
   {
     id: 'bendahara',
     name: 'Bendahara',
     title: 'Bendahara',
-    position: { x: 600, y: 450 },
+    position: { x: 300, y: 450 },
     level: 2,
   },
   {
     id: 'pendanaan',
     name: 'Pendanaan',
     title: 'Pendanaan',
-    position: { x: 780, y: 450 },
+    position: { x: 420, y: 450 },
     level: 2,
   },
 
-  // ===== LEVEL 3: BIDANG (Main divisions - 6 total) =====
+  // ===== LEVEL 3: BIDANG (Main divisions - 5 total, spread horizontally at bottom) =====
   {
     id: 'pmsda',
     name: 'PMSDA',
     title: 'Bidang Pengembangan Minat & Studi Daya Anggaran',
-    position: { x: 120, y: 585 },
+    position: { x: 180, y: 585 },
     level: 3,
     isDivision: true,
   },
@@ -94,7 +94,7 @@ const nodes: OrgNode[] = [
     id: 'akilprof',
     name: 'Akilprof',
     title: 'Bidang Akademik & Keprofesian',
-    position: { x: 360, y: 585 },
+    position: { x: 480, y: 585 },
     level: 3,
     isDivision: true,
   },
@@ -102,7 +102,7 @@ const nodes: OrgNode[] = [
     id: 'eksternal',
     name: 'Eksternal',
     title: 'Bidang Eksternal',
-    position: { x: 600, y: 585 },
+    position: { x: 780, y: 585 },
     level: 3,
     isDivision: true,
   },
@@ -110,7 +110,7 @@ const nodes: OrgNode[] = [
     id: 'internal',
     name: 'Internal',
     title: 'Bidang Internal',
-    position: { x: 840, y: 585 },
+    position: { x: 1080, y: 585 },
     level: 3,
     isDivision: true,
   },
@@ -118,18 +118,18 @@ const nodes: OrgNode[] = [
     id: 'medkominfo',
     name: 'Medkominfo',
     title: 'Bidang Media, Komunikasi & Informasi',
-    position: { x: 1080, y: 585 },
+    position: { x: 1380, y: 585 },
     level: 3,
     isDivision: true,
   },
 
   // ===== LEVEL 4: DIVISI (Sub-divisions under each Bidang) =====
-  // Under PMSDA
+  // Under PMSDA (parent at x=180)
   {
     id: 'psda',
     name: 'PSDA',
     title: 'Pengembangan Studi Daya Anggaran',
-    position: { x: 60, y: 765 },
+    position: { x: 120, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'pmsda',
@@ -138,18 +138,18 @@ const nodes: OrgNode[] = [
     id: 'msda',
     name: 'MSDA',
     title: 'Minat & Studi Daya Anggaran',
-    position: { x: 180, y: 765 },
+    position: { x: 240, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'pmsda',
   },
 
-  // Under Akilprof
+  // Under Akilprof (parent at x=480)
   {
     id: 'akad-keilmuan',
     name: 'Akad &\nKeilmuan',
     title: 'Akademik & Keilmuan',
-    position: { x: 300, y: 765 },
+    position: { x: 420, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'akilprof',
@@ -158,18 +158,18 @@ const nodes: OrgNode[] = [
     id: 'keprofesian',
     name: 'Keprofesian',
     title: 'Keprofesian',
-    position: { x: 420, y: 765 },
+    position: { x: 540, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'akilprof',
   },
 
-  // Under Eksternal
+  // Under Eksternal (parent at x=780)
   {
     id: 'intrakampus',
     name: 'Intrakampus',
     title: 'Intrakampus',
-    position: { x: 540, y: 765 },
+    position: { x: 720, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'eksternal',
@@ -178,18 +178,18 @@ const nodes: OrgNode[] = [
     id: 'ekstrakampus',
     name: 'Ekstrakampus',
     title: 'Ekstrakampus',
-    position: { x: 660, y: 765 },
+    position: { x: 840, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'eksternal',
   },
 
-  // Under Internal
+  // Under Internal (parent at x=1080)
   {
     id: 'kekeluargaan',
     name: 'Kekeluargaan',
     title: 'Kekeluargaan',
-    position: { x: 780, y: 765 },
+    position: { x: 1020, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'internal',
@@ -198,18 +198,18 @@ const nodes: OrgNode[] = [
     id: 'minat-bakat',
     name: 'Minat dan Bakat',
     title: 'Minat dan Bakat',
-    position: { x: 900, y: 765 },
+    position: { x: 1140, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'internal',
   },
 
-  // Under Medkominfo
+  // Under Medkominfo (parent at x=1380)
   {
     id: 'desain',
     name: 'Desain',
     title: 'Desain',
-    position: { x: 1020, y: 765 },
+    position: { x: 1320, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'medkominfo',
@@ -218,7 +218,7 @@ const nodes: OrgNode[] = [
     id: 'publikasi-dokumentasi',
     name: 'Publikasi dan Dokumentasi',
     title: 'Publikasi dan Dokumentasi',
-    position: { x: 1140, y: 765 },
+    position: { x: 1440, y: 765 },
     level: 4,
     isDivision: true,
     parentId: 'medkominfo',
@@ -440,7 +440,7 @@ export const orgChartData: OrgChart = {
   nodes,
   connections,
   svgDimensions: {
-    width: 1400,
+    width: 1800,
     height: 900,
   },
 };

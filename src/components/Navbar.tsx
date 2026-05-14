@@ -167,7 +167,7 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/20 px-8 py-4 flex items-center justify-between">
+    <nav className="fixed top-0 w-full z-[99] bg-white/80 backdrop-blur-md border-b border-slate-200/20 px-8 py-4 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-4">
         <img
           src="/assets/logos/logo-hmo.jpg"

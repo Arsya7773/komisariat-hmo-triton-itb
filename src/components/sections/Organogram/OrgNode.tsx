@@ -17,6 +17,10 @@ export const OrgNode: React.FC<OrgNodeProps> = ({
   isKetua = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const isCompact = node.level >= 3;
+  const nodeWidthClass = isCompact ? 'w-32 md:w-36' : 'w-40';
+  const nodePaddingClass = isCompact ? 'px-2 py-1' : 'px-3 py-2';
+  const nodeTextClass = isCompact ? 'text-[10px] md:text-[11px]' : 'text-xs md:text-sm';
 
   return (
     <motion.div
@@ -31,7 +35,7 @@ export const OrgNode: React.FC<OrgNodeProps> = ({
       {/* Main Node Card */}
       <motion.div
         className={`
-          w-40 px-3 py-2 rounded-lg font-bold text-center
+          ${nodeWidthClass} ${nodePaddingClass} rounded-lg font-bold text-center
           transition-all duration-300
           ${
             isKetua
@@ -40,7 +44,7 @@ export const OrgNode: React.FC<OrgNodeProps> = ({
           }
           ${isKetua && isHovered ? 'ring-2 ring-cyan-400/60' : ''}
           hover:border-cyan-300 hover:text-cyan-200 hover:shadow-lg
-          text-white text-xs md:text-sm
+          text-white ${nodeTextClass}
           leading-tight whitespace-pre-wrap
         `}
         whileHover={{ scale: 1.05 }}
@@ -122,7 +126,7 @@ export const OrgNode: React.FC<OrgNodeProps> = ({
                 className="
                   absolute inset-0 rounded-2xl
                   bg-gradient-to-r from-yellow-400/0 via-cyan-400/20 to-yellow-400/0
-                  blur-xl -z-10
+                  blur-xl z-0 pointer-events-none
                 "
                 animate={{
                   opacity: [0.5, 0.8, 0.5],

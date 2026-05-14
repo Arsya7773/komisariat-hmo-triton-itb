@@ -1,7 +1,8 @@
 /**
  * ConnectingLines Component
- * Renders SVG connections between organizational nodes
+ * Renders SVG connections between organizational nodes with ABSOLUTE offset separation for parallel lines
  * Implements three line types: Command (solid), Coordination (dashed), Supervision (dotted)
+ * Uses only 90-degree orthogonal paths: M (move), V (vertical), H (horizontal)
  */
 
 import React from 'react';
@@ -13,6 +14,15 @@ interface ConnectingLinesProps {
   height: number;
 }
 
+/**
+ * LINE OFFSET SEPARATION CONSTANTS
+ * Used to mathematically separate Solid and Dashed lines
+ * on both vertical and horizontal segments.
+ */
+const VERTICAL_OFFSET = 12;
+const HORIZONTAL_OFFSET = 8;
+const SUPERVISION_MARKER_ID = 'arrow-pengawasan';
+
 const BIDANG_TARGET_IDS = new Set([
   'kesekjenan',
   'pmsda',
@@ -22,38 +32,106 @@ const BIDANG_TARGET_IDS = new Set([
   'medkominfo',
 ]);
 
+const KESEKJENAN_DIVISIONS = new Set([
+  'sekretaris',
+  'bendahara',
+  'pendanaan',
+]);
+
+const KETUA_LEFT_BRANCH_TARGETS = new Set([
+  'ketua-hmo-ganesha',
+  'senator-komisariat',
+]);
+
 /**
- * Create path string for orthogonal line routing
+ * Create STRICTLY orthogonal path using only M, V, H commands
+ * Implements offset logic for parallel lines (Solid vs Dashed)
  */
 const createOrthogonalPath = (
   connection: OrgConnection,
   fromNode: OrgNode,
   toNode: OrgNode
 ): string => {
-  const start = { ...fromNode.position };
-  const end = { ...toNode.position };
+  let start = { ...fromNode.position };
+  let end = { ...toNode.position };
+  const horizontalAdjustment =
+    connection.type === 'command'
+      ? -HORIZONTAL_OFFSET
+      : connection.type === 'coordination'
+      ? HORIZONTAL_OFFSET
+      : 0;
+
+  const isPoseidonSupervision =
+    connection.from === 'ketua-komisariat' &&
+    connection.to === 'poseidon' &&
+    connection.type === 'supervision';
+
+  if (isPoseidonSupervision) {
+    start.x += 120;
+    start.y += 24;
+  }
 
   const isKetuaToBidang =
     connection.from === 'ketua-komisariat' &&
     BIDANG_TARGET_IDS.has(connection.to);
 
+  const isKesekjenanToDivision =
+    connection.from === 'kesekjenan' &&
+    KESEKJENAN_DIVISIONS.has(connection.to);
+
+  const isKetuaLeftBranch =
+    connection.from === 'ketua-komisariat' &&
+    KETUA_LEFT_BRANCH_TARGETS.has(connection.to) &&
+    connection.type === 'coordination';
+
+  const isKesekjenanBranch =
+    connection.from === 'ketua-komisariat' &&
+    connection.to === 'kesekjenan';
+
+  // KETUA TO BIDANG: Apply X-axis offset for vertical trunk separation
   if (isKetuaToBidang) {
     if (connection.type === 'command') {
-      end.x -= 24;
+      start.x -= VERTICAL_OFFSET;
+      end.x -= VERTICAL_OFFSET;
+    } else if (connection.type === 'coordination') {
+      start.x += VERTICAL_OFFSET;
+      end.x += VERTICAL_OFFSET;
     }
-    if (connection.type === 'coordination') {
-      end.x += 24;
-    }
+  }
+
+  // KESEKJENAN TO DIVISIONS: Keep the horizontal segment separated via Y-offset
+  if (isKesekjenanToDivision) {
+    // Use vertical anchor points at nodes, but offset the horizontal branch.
+    const yMid = (start.y + end.y) / 2 + horizontalAdjustment;
+    return `M ${start.x} ${start.y} V ${yMid} H ${end.x} V ${end.y}`;
+  }
+
+  // KETUA LEFT BRANCH: single dashed branch going left, then split up/down.
+  if (isKetuaLeftBranch) {
+    const junctionX = start.x - 260;
+    const branchY = start.y + horizontalAdjustment;
+    return `M ${start.x} ${start.y} V ${branchY} H ${junctionX} V ${end.y} H ${end.x}`;
+  }
+
+  // KESekjenan receives from main trunk and branches left.
+  if (isKesekjenanBranch) {
+    const branchY = end.y + horizontalAdjustment;
+    return `M ${start.x} ${start.y} V ${branchY} H ${end.x}`;
   }
 
   const isVertical = start.x === end.x;
   const isHorizontal = start.y === end.y;
 
-  if (isVertical || isHorizontal) {
-    return `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
+  if (isVertical) {
+    return `M ${start.x} ${start.y} V ${end.y}`;
   }
 
-  const yMid = (start.y + end.y) / 2;
+  if (isHorizontal) {
+    const branchY = start.y + horizontalAdjustment;
+    return `M ${start.x} ${start.y} V ${branchY} H ${end.x} V ${end.y}`;
+  }
+
+  const yMid = (start.y + end.y) / 2 + horizontalAdjustment;
   return `M ${start.x} ${start.y} V ${yMid} H ${end.x} V ${end.y}`;
 };
 
@@ -96,7 +174,7 @@ const getMarkerConfig = (type: LineType) => {
       };
     case 'supervision':
       return {
-        id: 'arrowSupervision',
+        id: SUPERVISION_MARKER_ID,
         color: '#22d3ee',
         hasArrow: true,
       };
@@ -177,7 +255,7 @@ export const ConnectingLines: React.FC<ConnectingLinesProps> = ({
 
         {/* Supervision Arrow - Cyan Dotted */}
         <marker
-          id="arrowSupervision"
+          id={SUPERVISION_MARKER_ID}
           markerWidth="10"
           markerHeight="10"
           refX="9"
@@ -188,7 +266,7 @@ export const ConnectingLines: React.FC<ConnectingLinesProps> = ({
           <path d="M0,0 L0,6 L9,3 z" fill="#22d3ee" />
         </marker>
 
-        {/* Gradient filter for glow effect (optional enhancement) */}
+        {/* Gradient filter for glow effect */}
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="1" result="coloredBlur" />
           <feMerge>
