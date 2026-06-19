@@ -11,7 +11,8 @@ export const ASSET_PATHS = {
     internal: `${BASE}assets/divisions/internal.png`,
     eksternal: `${BASE}assets/divisions/eksternal.png`,
     akilprof: `${BASE}assets/divisions/akilprof.png`,
-    PMSDA: `${BASE}assets/divisions/PMSDA.png`,
+    // Menggunakan nama yang sama persis seperti file asli (kalau komputermu huruf besar, biarkan kapital)
+    pmsda: `${BASE}assets/divisions/PMSDA.png`, 
     medkominfo: `${BASE}assets/divisions/medkominfo.png`,
     getPath: (file: string) => `${BASE}assets/divisions/${file}`,
   },

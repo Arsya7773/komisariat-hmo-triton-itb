@@ -1,5 +1,6 @@
 import React from 'react';
 import { ASSET_PATHS } from '@/lib/assets';
+import ScrollReveal from './ScrollReveal';
 
 export const OrganogramLanding = () => {
   const divisions = [
@@ -15,12 +16,10 @@ export const OrganogramLanding = () => {
   return (
     <section id="struktur" className="py-24 px-8 md:px-20 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto text-center mb-16 space-y-4 relative z-10">
-        <h2 className="text-5xl font-black italic text-navy-dark leading-none">
-          STRUKTUR BADAN PENGURUS
-        </h2>
-        <p className="text-navy-dark/60 font-medium italic">
-          7 Bidang Kerja Kabinet Daya Biru.
-        </p>
+        <ScrollReveal animation="slide-up">
+          <h2 className="text-5xl font-black italic text-navy-dark leading-none">STRUKTUR BADAN PENGURUS</h2>
+          <p className="text-navy-dark/60 font-medium italic">SUB-ORGANISASI Kabinet Daya Biru.</p>
+        </ScrollReveal>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 relative z-10">
@@ -29,6 +28,8 @@ export const OrganogramLanding = () => {
             <img 
               src={d.img} 
               alt={d.title} 
+              loading="lazy" decoding="async"
+              width={112} height={112}
               className="mx-auto mb-6 h-28 w-auto object-contain"
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />

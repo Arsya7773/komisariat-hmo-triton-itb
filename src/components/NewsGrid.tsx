@@ -39,7 +39,8 @@ export const NewsGrid = () => {
                 <img 
                   src={n.img} 
                   alt={n.title} 
-                  className="w-full grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100" 
+                  loading="lazy" decoding="async"
+                  className="w-full grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 opacity-60 group-hover:opacity-100 aspect-video object-cover" 
                   onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => { e.currentTarget.style.display = 'none'; }}
                   referrerPolicy="no-referrer"
                 />
