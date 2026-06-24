@@ -150,7 +150,8 @@ const nodes: OrgNode[] = [
   {
     id: 'psda',
     name: 'PSDA',
-    fullName: 'Nazua Khaliza Lawahizh',
+    // REVISI 3: Update nama ketua divisi di organogram
+    fullName: 'Nayla Elma Apriwianda',
     title: 'PSDA',
     photo: ASSET_PATHS.pengurus.getPath('psda.jpg'),
     position: { x: 200, y: 920 },
@@ -235,28 +236,7 @@ const nodes: OrgNode[] = [
     isDivision: true,
     parentId: 'internal',
   },
-  {
-    id: 'desain',
-    name: 'Desain',
-    fullName: 'Zahra Nafisha Maulida',
-    title: 'Desain',
-    photo: ASSET_PATHS.pengurus.getPath('desain.jpg'),
-    position: { x: 2600, y: 920 },
-    level: 4,
-    isDivision: true,
-    parentId: 'medkominfo',
-  },
-  {
-    id: 'publikasi-dokumentasi',
-    name: 'Publikasi dan Dokumentasi',
-    fullName: 'Andi Muyassar Alfarizi Hatta',
-    title: 'Publikasi dan Dokumentasi',
-    photo: ASSET_PATHS.pengurus.getPath('publikasi-dokumentasi.jpg'),
-    position: { x: 2800, y: 920 },
-    level: 4,
-    isDivision: true,
-    parentId: 'medkominfo',
-  },
+  // REVISI 4: Menghapus Node Desain dan Node Publikasi-Dokumentasi
 ];
 
 /**
@@ -265,7 +245,6 @@ const nodes: OrgNode[] = [
  */
 const connections: OrgConnection[] = [
   // ===== GARIS PENGAWASAN (Supervision - Dotted with Arrow) =====
-  // Rule: Ketua Komisariat -> POSEIDON (Arrow TO Poseidon)
   {
     id: 'supervision-ketua-poseidon',
     from: 'ketua-komisariat',
@@ -273,7 +252,6 @@ const connections: OrgConnection[] = [
     type: 'supervision',
     label: 'Pengawasan',
   },
-  // Rule: BPAK HMO TRITON ITB -> Ketua Komisariat (Arrow TO Ketua Komisariat)
   {
     id: 'supervision-bpak-ketua',
     from: 'bpak',
@@ -283,7 +261,6 @@ const connections: OrgConnection[] = [
   },
 
   // ===== GARIS KOORDINASI (Coordination - Dashed, NO Arrow) =====
-  // Rule: Ketua Komisariat <-> Ketua HMO TRITON ITB Ganesha
   {
     id: 'coordination-ketua-hmo',
     from: 'ketua-komisariat',
@@ -291,7 +268,6 @@ const connections: OrgConnection[] = [
     type: 'coordination',
     label: 'Koordinasi',
   },
-  // Rule: Ketua Komisariat <-> Senator Komisariat
   {
     id: 'coordination-ketua-senator',
     from: 'ketua-komisariat',
@@ -299,7 +275,6 @@ const connections: OrgConnection[] = [
     type: 'coordination',
     label: 'Koordinasi',
   },
-  // Rule: Sekretaris <-> Bendahara <-> Pendanaan (Horizontal, no upward connection)
   {
     id: 'coordination-sekretaris-bendahara',
     from: 'sekretaris',
@@ -314,7 +289,6 @@ const connections: OrgConnection[] = [
     type: 'coordination',
     label: 'Koordinasi',
   },
-  // Rule: Ketua Komisariat <-> All 6 Bidang (Dashed line parallel to Command line)
   {
     id: 'coordination-ketua-pmsda',
     from: 'ketua-komisariat',
@@ -353,7 +327,6 @@ const connections: OrgConnection[] = [
   },
 
   // ===== GARIS KOMANDO (Command - Solid with Arrow) =====
-  // Rule: Ketua Komisariat -> All 6 Bidang (Arrow TO Bidang)
   {
     id: 'command-ketua-pmsda',
     from: 'ketua-komisariat',
@@ -391,7 +364,7 @@ const connections: OrgConnection[] = [
     type: 'command',
   },
 
-  // Rule: Kesekjenan -> Sekretaris, Bendahara, Pendanaan (Downward command)
+  // Rule: Kesekjenan -> Sekretaris, Bendahara, Pendanaan
   {
     id: 'command-kesekjenan-sekretaris',
     from: 'kesekjenan',
@@ -411,8 +384,7 @@ const connections: OrgConnection[] = [
     type: 'command',
   },
 
-  // Rule: Bidang -> Divisi (Arrow TO Divisi)
-  // PMSDA divisi
+  // Rule: Bidang -> Divisi
   {
     id: 'command-pmsda-psda',
     from: 'pmsda',
@@ -425,7 +397,6 @@ const connections: OrgConnection[] = [
     to: 'msda',
     type: 'command',
   },
-  // Akilprof divisi
   {
     id: 'command-akilprof-akad',
     from: 'akilprof',
@@ -438,7 +409,6 @@ const connections: OrgConnection[] = [
     to: 'keprofesian',
     type: 'command',
   },
-  // Eksternal divisi
   {
     id: 'command-eksternal-intrakampus',
     from: 'eksternal',
@@ -451,26 +421,13 @@ const connections: OrgConnection[] = [
     to: 'ekstrakampus',
     type: 'command',
   },
-  // Internal divisi
   {
     id: 'command-internal-kekeluargaan',
     from: 'internal',
     to: 'kekeluargaan',
     type: 'command',
   },
-  // Medkominfo divisi
-  {
-    id: 'command-medkominfo-desain',
-    from: 'medkominfo',
-    to: 'desain',
-    type: 'command',
-  },
-  {
-    id: 'command-medkominfo-publikasi',
-    from: 'medkominfo',
-    to: 'publikasi-dokumentasi',
-    type: 'command',
-  },
+  // REVISI 4: Menghapus Command/Koneksi Medkominfo ke Divisi
 ];
 
 /**
@@ -485,25 +442,16 @@ export const orgChartData: OrgChart = {
   },
 };
 
-/**
- * Helper function to get node by ID
- */
 export const getNodeById = (id: string): OrgNode | undefined => {
   return orgChartData.nodes.find((node) => node.id === id);
 };
 
-/**
- * Helper function to get connections for a node
- */
 export const getNodeConnections = (nodeId: string): OrgConnection[] => {
   return orgChartData.connections.filter(
     (conn) => conn.from === nodeId || conn.to === nodeId
   );
 };
 
-/**
- * Helper function to get children of a node
- */
 export const getChildNodes = (parentId: string): OrgNode[] => {
   return orgChartData.nodes.filter((node) => node.parentId === parentId);
 };
